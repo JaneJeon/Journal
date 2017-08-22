@@ -2,56 +2,43 @@
 require_once '../functions.php';
 
 class Input {
-    private $user;
-    private $post;
-    private $session;
+    # intention:
+    # during the first visit, DON'T try to validate input (there won't be any)
+    # on subsequent visits, DO validate input.
+    # if correct, add the entry then send off to view page (redirect)
+    # if not, show the error message
+    # keep track of whether they have tried or not
     
-    public function __construct(&$session, $post) {
-        $this->user = $post['valid_user'];
-        $this->post = $post;
-        $this->session = $session;
-    }
+    # sol'n: if post is empty, DON'T do anything
     
-    public function entryBody() {
+    public static function enter($post, $session) {
+        if (!isset($post['type'], $post['input']))
+            return '';
+        
         try {
-            if ($this->session['inputTries'] == 1)
-                return;
+            if (!($input = $post['input']))
+                throw new Exception('Input is empty.<br>Please try again.');
             
-            if (!isset($this->post['type'], $this->post['input']))
-                throw new Exception('You have not entered all required details.<br />Please try again.');
-            
-            if ((!$input = $this->post['input']))
-                throw new Exception('Input is empty.<br />Please try again.');
-            
-            switch ($this->post['type']) {
+            switch ($post['type']) {
                 case 'Diary':
-                    $success = Entry::addDiary($input, $this->user);
+                    $success = Entry::addDiary($input, $session['valid_user']);
                     break;
                 case 'Mood':
                     if (!ctype_digit($input) || $input > 5 || $input < 1)
                         throw new Exception('Mood value should be an integer between 1 and 5.');
-                    $success = Entry::addDiary($input, $this->user);
+                    $success = Entry::addMood($input, $session['valid_user']);
                     break;
                 default:
-                    throw new Exception('Invalid input type.<br />Make sure to select type from the dropdown.');
+                    throw new Exception('Invalid input type.<br>Make sure to select type from the dropdown.');
             }
             
             if (!$success)
-                throw new Exception('Could not be entered right now.<br />Please try again later.');
+                throw new Exception('Could not be entered right now.<br>Please try again later.');
             
-            # success!
-            $this->session['inputTries'] = 0;
+            Route::redirect('add');
+            return ''; // to appease the IDE gods
         } catch (Exception $e) {
-            if ($this->session['inputTries'] != 1)
-                echo '<p class="error">'.$e->getMessage().'</p>';
-            $this->session['inputTries']++;
+            return '<p class="error">'.$e->getMessage().'</p>';
         }
-    }
-    
-    public function entryCheck() {
-        if (!isset($this->session['inputTries']))
-            $this->session['inputTries'] = 1;
-        else if (!$this->session['inputTries'])
-            Routes::redirect('add');
     }
 }

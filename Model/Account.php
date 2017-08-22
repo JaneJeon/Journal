@@ -1,7 +1,7 @@
 <?php
 require_once '../functions.php';
 
-class AccountManager {
+class Account {
     public static function check_password($input) {
 //        return isset($input['pw']) && $input['pw'] == 'agony';
         if (!isset($input['pw']))
@@ -13,10 +13,10 @@ class AccountManager {
         return false;
     }
     
-    public static function create_user($username, $password) {
+    public static function create($username, $password) {
         try {
-            if ($username === '')
-                throw new Exception('Username cannot be empty.');
+            if ($username === '' || $password === '')
+                throw new Exception('Username/password cannot be empty.');
             
             if (strlen($username) > 10)
                 throw new Exception('Username must be under 10 characters long.');
@@ -31,7 +31,7 @@ class AccountManager {
             $stmt = DB::getConnection()->prepare("INSERT INTO Users VALUES (?, ?)");
             $stmt->bind_param('ss', $username, $hash);
             if (!$stmt->execute())
-                throw new Exception('Could not create user account.<br />Please try again later.');
+                throw new Exception('Could not create user account.<br>Please try again later.');
             
             return 0;
         } catch (Exception $e) {

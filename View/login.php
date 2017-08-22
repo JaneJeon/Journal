@@ -1,8 +1,4 @@
 <?php
-# TODO: navBar at top, return links at the bottom
-# TODO: view past entries (for that user) & search them
-# TODO: make graph of mood (from point A to B, by default the entire range)
-# TODO: Three strikes and you're out
 session_start();
 require_once '../functions.php';
 
@@ -15,10 +11,17 @@ if ($_SESSION['login_attempts'])
 	echo '<p class="error">Wrong password. Please try again.</p>'; ?>
 
 <h1>Login</h1>
-<form action="login.php" method="post">
-	<input type="password" name="pw" size="30"/>
-</form>
-<br />
+<div class="container">
+	<form action="login.php" method="post">
+		<div class="form-group row">
+			<!-- for horizontal centering -->
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4">
+				<input type="password" name="pw" class="form-control" placeholder="Password">
+			</div>
+		</div>
+	</form>
+</div>
 
 <a href="register.php">Don't have an account? Register!</a>
 
