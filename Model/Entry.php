@@ -56,4 +56,11 @@ class Entry {
 	        $list = "$list'$post',";
 	    return substr($list, 0, -1).')';
     }
+
+    public static function numDiary($user) {
+        $stmt = DB::getConnection()->prepare('SELECT COUNT(*) FROM Diary WHERE user = ?');
+        $stmt->bind_param('s', $user);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_row()[0];
+    }
 }

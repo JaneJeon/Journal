@@ -45,7 +45,7 @@ class Page {
 					<?php $this->displayButtons() ?>
 				</ul>
 			</div>
-			<form class="form-inline" action="view.php" method="post">
+			<form class="form-inline" action="search.php" method="get">
 				<input class="form-control mr-sm-2" type="text" placeholder="Search">
 			</form>
 		</nav>

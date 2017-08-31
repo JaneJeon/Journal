@@ -64,3 +64,8 @@ footer a:hover {
     background-color: darkgray;
     color: white;
 }
+
+.reply {
+    font-size: small;
+    color: dodgerblue;
+}

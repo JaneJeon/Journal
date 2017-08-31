@@ -1,17 +1,17 @@
 <?php
-session_start();
 require_once '../functions.php';
+session_start();
 
 SessionManager::authenticate($_SESSION, $_POST);
 
 $p = new Page('Login', false);
-$p->displayNavless();
-
-if ($_SESSION['login_attempts'])
-	echo '<p class="error">Wrong password. Please try again.</p>'; ?>
+$p->displayNavless(); ?>
 
 <!--TODO: vertically align center-->
 <div class="container">
+    <?php
+    if ($_SESSION['login_attempts'])
+        echo '<p class="error">Wrong password. Please try again.</p>'; ?>
     <h1>Login</h1>
     <br>
     <form action="login.php" method="post">

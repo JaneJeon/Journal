@@ -9,11 +9,9 @@ class Route {
                                  'default' => 'login'];
     
     public static function redirect($url = 'default') {
-        header('Location: '.Route::$autoRoute[$url].'.php');
+        $next = array_key_exists($url, Route::$autoRoute)
+            ? Route::$autoRoute[$url] : 'default';
+        header("Location: $next.php");
         exit;
     }
-    
-//    public static function next($url) {
-//        return 'Location: '.Routes::$autoRoute[$url].'.php';
-//    }
 }
