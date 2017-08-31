@@ -5,13 +5,12 @@ class Route {
     private static $autoRoute = ['login' => 'add',
                                  'register' => 'add',
                                  'add' => 'view',
+                                 'search' => 'view',
                                  'test' => 'test',
                                  'default' => 'login'];
     
     public static function redirect($url = 'default') {
-        $next = array_key_exists($url, Route::$autoRoute)
-            ? Route::$autoRoute[$url] : 'default';
-        header("Location: $next.php");
+        header('Location: '.Route::$autoRoute[$url].'.php');
         exit;
     }
 }

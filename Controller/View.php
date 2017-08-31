@@ -3,10 +3,15 @@
 class View {
     private $user;
     private $posts;
+    private $query;
     
     public function __construct($user) {
         $this->user = $user;
         $this->posts = [];
+    }
+
+    public function searchTerm($query) {
+        $this->query = $query;
     }
     
     public function fetchDiary() {
@@ -17,6 +22,21 @@ class View {
     	        $this->posts[] = $entry[0];
     	        self::commentContainer($entry, count($this->posts));
         }
+    }
+
+    public function fetchSearchResults() {
+        $results = $this->posts ? Entry::getDiaryBySearch($this->user, $this->query, $this->posts)
+                                : Entry::getDiaryBySearch($this->user, $this->query);
+
+        while ($result = $results->fetch_row()) {
+            if (!round($result[2], 2))
+                break;
+            $this->posts[] = $result[0];
+            self::commentContainer($result, count($this->posts));
+        }
+
+        if (!$this->posts)
+            echo '<p class="error">No search results found.</p>';
     }
 
     # entry: 0 is date, 1 is content
@@ -70,13 +90,14 @@ class View {
                 $(this).css({color: '#1E90FF'});
             });
             // allow only one reply box at a time
-            $('a').click(function(e) {
+            $('.reply').click(function(e) {
                 e.preventDefault();
                 hideAll();
                 // TODO: get id attribute of the link?
                 alert($(this).id);
 //            $('#'+$(this).id).show();
             });
+//            TODO: accommodate for search results
             $('#loadMore').click(function() {
                 $.get('../Controller/loadEntry.php', function(data) {
                     $('#loadMore').before(data);

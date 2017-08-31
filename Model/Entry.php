@@ -39,13 +39,12 @@ class Entry {
     
     public static function getDiaryBySearch($user, $text, $posts = ['']) {
     	    $stmt = DB::getConnection()->
-            prepare('SELECT inserted_at, entry FROM Diary
+            prepare('SELECT inserted_at, entry, MATCH(entry) AGAINST(?) as score FROM Diary
                     WHERE user = ?
-                    AND inserted_at NOT IN '.self::post2list($posts).'
-                    AND MATCH(entry) AGAINST(?)
-                    ORDER BY 3 DESC
+                    AND inserted_at NOT IN '.self::post2list($posts).' 
+                    ORDER BY ROUND(score, 2) DESC, 1 DESC
                     LIMIT '.Entry::LIMIT);
-    	    $stmt->bind_param('ss', $user, $text);
+    	    $stmt->bind_param('ss', $text, $user);
     	    $stmt->execute();
     	    return $stmt->get_result();
     }

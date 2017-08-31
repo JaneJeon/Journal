@@ -60,6 +60,10 @@ footer a:hover {
     color: #fffa3d
 }
 
+.btn-block {
+    margin-top: 1em;
+}
+
 .btn-block:hover {
     background-color: darkgray;
     color: white;

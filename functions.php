@@ -7,5 +7,4 @@ require_once 'Controller/Route.php';
 require_once 'Controller/Input.php';
 require_once 'Controller/Register.php';
 require_once 'Controller/View.php';
-require_once 'Controller/SearchEngine.php';
 require_once 'View/Page.php';

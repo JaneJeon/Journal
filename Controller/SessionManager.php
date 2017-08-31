@@ -10,8 +10,8 @@ class SessionManager {
     
     # used only by the login page
     public static function authenticate(&$session, $post) {
-        if (((!isset($session['valid_user']) || !$session['valid_user'])
-                && !($session['valid_user'] = Account::check_password($post))) && isset($session['valid_user']))
+        if ((!isset($session['valid_user']) || !$session['valid_user'])
+            && !($session['valid_user'] = Account::check_password($post)))
             unset($session['valid_user']);
         
         if (!isset($session['login_attempts']) || $session['valid_user'])

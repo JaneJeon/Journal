@@ -7,7 +7,6 @@ SessionManager::authenticate($_SESSION, $_POST);
 $p = new Page('Login', false);
 $p->displayNavless(); ?>
 
-<!--TODO: vertically align center-->
 <div class="container">
     <?php
     if ($_SESSION['login_attempts'])
