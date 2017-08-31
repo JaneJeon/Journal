@@ -13,15 +13,17 @@ class Page {
         $this->loggedIn = $loggedIn;
     }
     
-    # TODO: format h1's and error p's CSS
     public function displayNavless() { ?>
 		<!DOCTYPE HTML>
 		<html>
 		<head>
-			<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-			<title><?= $this->title ?></title>
-			<link rel="stylesheet" href="../Resources/bootstrap.min.css">
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <title><?= $this->title ?></title>
+            <link rel="stylesheet" href="../Resources/bootstrap.min.css">
+            <link rel="stylesheet" href="../Resources/site.css">
+            <?= $this->specialCSS() ?>
+            <script src="../Resources/jquery.min.js"></script>
 		</head>
 		<body> <?php
     }
@@ -30,22 +32,35 @@ class Page {
 		$this->displayNavless();
 		$this->displayNavBar();
 	}
-    
+
+	# TODO: show menu when clicked on small screen button
     private function displayNavBar() { ?>
 		<nav class='navbar navbar-expand-lg navbar-light bg-light'>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+							 aria-controls="navbarNav" aria-expanded="false">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav mr-auto">
+				<ul class="navbar-nav">
 					<?php $this->displayButtons() ?>
 				</ul>
-				<form class="form-inline" action="view.php" method="post">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-				</form>
 			</div>
-		</nav> <?php
+			<form class="form-inline" action="view.php" method="post">
+				<input class="form-control mr-sm-2" type="text" placeholder="Search">
+			</form>
+		</nav>
+		<script>
+			$('form').submit(function(e) {
+				if ($(this).find('input').val() === '')
+					e.preventDefault();
+			})
+		</script>
+		<?php
+    }
+
+    private function specialCSS() {
+        return ($this->title == 'Login' || $this->title == 'Register')
+            ? '<style> body {display: flex; align-items: center;} </style>' : '';
     }
     
     private function isCurrentPage($url) {
@@ -59,9 +74,9 @@ class Page {
     
     private function displayButton($name, $url, $active) {
     	echo $active ? "<li class='nav-item active'>
-							<a class='nav-link' href='$url'>$name<span class='sr-only'>(current)</span></a></li>"
-					 : "<li class='nav-item'>
-							<a class='nav-link' href='$url'>$name</a></li>";
+                        <a class='nav-link' href='$url'>$name<span class='sr-only'>(current)</span></a></li>"
+                 : "<li class='nav-item'>
+                        <a class='nav-link' href='$url'>$name</a></li>";
     }
     
     public function displayFooter() {

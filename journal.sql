@@ -6,14 +6,16 @@ CREATE TABLE IF NOT EXISTS Diary (
     inserted_at TIMESTAMP PRIMARY KEY,
     entry TEXT NOT NULL,
     user VARCHAR(10) NOT NULL,
-    index (user)
+    index (user),
+    FULLTEXT (entry)
 );
 
 CREATE TABLE IF NOT EXISTS Mood (
     day DATE PRIMARY KEY,
     score TINYINT(1) NOT NULL,
     user VARCHAR(10) NOT NULL,
-    index (user)
+    index (user),
+    index (score)
 );
 
 CREATE TABLE IF NOT EXISTS Users (

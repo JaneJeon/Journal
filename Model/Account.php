@@ -18,8 +18,11 @@ class Account {
             if ($username === '' || $password === '')
                 throw new Exception('Username/password cannot be empty.');
             
-            if (strlen($username) > 10)
-                throw new Exception('Username must be under 10 characters long.');
+            if (strlen($username) > 20)
+                throw new Exception('Username must be under 20 characters long.');
+            
+            if (strlen($password) < 10 || strlen($password) > 32)
+                throw new Exception('Password must be between 10 and 32 characters long.');
             
             $users = DB::getConnection()->query('SELECT LOWER(user) FROM Users');
             while ($row = $users->fetch_row()) {
@@ -37,5 +40,12 @@ class Account {
         } catch (Exception $e) {
             return '<p class="error">'.$e->getMessage().'</p>';
         }
+    }
+    
+    public static function pw_exists($pw) {
+        $stmt = DB::getConnection()->prepare('SELECT COUNT(*) FROM Users WHERE hash = ?');
+        $stmt->bind_param('s', password_hash($pw, PASSWORD_BCRYPT));
+        $stmt->execute();
+        return $stmt->get_result()->fetch_row()[0];
     }
 }

@@ -25,17 +25,14 @@ echo $output; ?>
 				</label>
 			</div>
 		</div>
-		<!-- TODO: only show one of the two depending on the input type (w/ jQuery?) -->
-		<!-- DIARY INPUT -->
-		<div class="form-group">
+		<div class="form-group entry" id="Diary-form">
 			<label for="Diary-input" class="col-form-label">Type in diary entry for today</label>
-			<textarea name="input" class="form-control" id="Diary-input" rows="4"></textarea>
+			<textarea name="Diary-input" class="form-control" id="Diary-input" rows="5" autofocus></textarea>
 		</div>
-		<!-- MOOD INPUT -->
-		<div class="form-group row">
+		<div class="form-group row entry" id="Mood-form" style="display: none">
 			<label for="Mood-select" class="col-sm-2">Select mood value</label>
-			<div class="col-sm-1">
-				<select class="form-control" id="Mood-select" name="input">
+			<div class="col-sm-2">
+				<select class="form-control" id="Mood-select" name="Mood-input">
 					<option>1</option>
 					<option>2</option>
 					<option>3</option>
@@ -44,7 +41,6 @@ echo $output; ?>
 				</select>
 			</div>
 		</div>
-		<!-- TODO: check that the button actually does submit the right data -->
 		<div class="form-group row">
 			<div class="col-sm-10">
 				<button type="submit" class="btn btn-primary">Submit</button>
@@ -52,5 +48,15 @@ echo $output; ?>
 		</div>
 	</form>
 </div>
+
+<script>
+	$(function() {
+		$("input[name$='type']").click(function() {
+			var str = $(this).val() + "-form";
+			$("div.entry").hide();
+			$("#"+str).show();
+		});
+	})
+</script>
 
 <?php $p->displayFooter();
