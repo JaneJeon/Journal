@@ -11,8 +11,9 @@ echo $output; ?>
 
 <h1>Track and Record Pills</h1>
 <div class="container">
-    <h2>Current Prescriptions</h2>
-    <?= Pills::prescriptions() ?>
+    <p>Current Prescriptions</p>
+    <?= Pills::prescriptions() ?><br>
+    <p>Pill last taken on <?= Entry::lastTaken() ?></p>
     <form action="pills.php" method="post">
         <p>Did you take your pills for today?</p>
         <div class="form-check form-check-inline">
