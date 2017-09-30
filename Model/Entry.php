@@ -62,4 +62,34 @@ class Entry {
         $stmt->execute();
         return $stmt->get_result()->fetch_row()[0];
     }
+    
+    public static function pillList() {
+        return DB::pillDB()->query("SELECT * FROM Prescription");
+    }
+    
+    public static function pillInterval($pill) {
+        $stmt = DB::pillDB()->prepare("SELECT DATEDIFF(CURDATE(), MAX(date)) FROM Log WHERE name = ?");
+        $stmt->bind_param('s', $pill);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_row()[0];
+    }
+    
+    public static function addPill() {}
+    
+    public static function removePill() {}
+    
+    public static function editPill() {}
+    
+    public static function addRecord($name, $num, $mg) {
+        $stmt = DB::pillDB()->prepare
+            ("INSERT INTO Log (Name, Amount_number, Amount_mg, Date) VALUES (?, ?, ?, CURDATE())");
+        $stmt->bind_param('sii', $name, $num, $mg);
+        return $stmt->execute();
+    }
+    
+    public static function lastTaken() {
+        if (DB::pillDB()->query("SELECT COUNT(*) FROM Log WHERE date = CURDATE()")->fetch_row()[0])
+            return false;
+        return DB::pillDB()->query("SELECT MAX(Date) FROM Log")->fetch_row()[0];
+    }
 }

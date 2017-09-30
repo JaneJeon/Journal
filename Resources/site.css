@@ -2,7 +2,7 @@ html, body {
     height: 100%;
 }
 
-.post, .error, footer, h1 {
+.post, .error, footer, h1, h2 {
     display: flex;
     justify-content: center;
     align-items: center;
