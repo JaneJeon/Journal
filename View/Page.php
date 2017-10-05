@@ -5,7 +5,8 @@ class Page {
     private $prefix;
     private $links = ['Add Entry' => 'add.php',
                       'View Entries' => 'view.php',
-                      'Track Pills' => 'pills.php'];
+                      'Track Pills' => 'pills.php',
+                      'Mood History' => 'history.php'];
     private $loggedIn;
     
     public function __construct($title, $loggedIn) {
