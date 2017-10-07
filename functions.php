@@ -2,6 +2,7 @@
 require_once 'Model/Account.php';
 require_once 'Model/DB.php';
 require_once 'Model/Entry.php';
+require_once 'Model/Pill.php';
 require_once 'Controller/SessionManager.php';
 require_once 'Controller/Route.php';
 require_once 'Controller/Input.php';

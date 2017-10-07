@@ -13,7 +13,7 @@ echo $output; ?>
 <div class="container">
     <p>Current Prescriptions</p>
     <?= Pills::prescriptions() ?><br>
-    <p>Pill last taken on <?= Entry::lastTaken() ?></p>
+    <p>Pill last taken on <?= Pill::lastTaken() ?></p>
     <form action="pills.php" method="post">
         <p>Did you take your pills for today?</p>
         <div class="form-check form-check-inline">

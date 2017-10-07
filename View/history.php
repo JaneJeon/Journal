@@ -10,7 +10,7 @@ $p->displayHeader(); ?>
 
 <h1>Mood Graph for <?= htmlspecialchars($_SESSION['valid_user']) ?></h1>
 <div class="text-center">
-	<img src="../Model/mood.png">
+	<img class="img-fluid" src="../View/mood.png">
 </div>
 
 <?php $p->displayFooter();

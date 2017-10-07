@@ -10,12 +10,12 @@ class Pills {
 			return "<p>Go take your pills for today.</p>";
 		
 		try {
-			if (($date = Entry::lastTaken()) === false)
+			if (($date = Pill::lastTaken()) === false)
 				throw new Exception("Already took the pills for today.");
 			
 			if (count($pills = self::takeDay())) {
 				foreach ($pills as $pill)
-					if (!Entry::addRecord($pill[0], $pill[1], $pill[2]))
+					if (!Pill::addRecord($pill[0], $pill[1], $pill[2]))
 						throw new Exception("There was an error.<br>Please try again later.");
 			} else
 				throw new Exception("There are no pills to take today.");
@@ -27,18 +27,18 @@ class Pills {
 	}
 	
 	private static function takeDay() {
-		$list    = Entry::pillList();
+		$list    = Pill::pillList();
 		$to_take = [];
 		
 		while ($pill = $list->fetch_row())
-			if (Entry::pillInterval($pill[0]) >= $pill[3])
+			if (Pill::pillInterval($pill[0]) >= $pill[3])
 				$to_take[] = $pill;
 		
 		return $to_take;
 	}
 	
 	public static function prescriptions() {
-		$prescriptions = Entry::pillList();
+		$prescriptions = Pill::pillList();
 		$table = "<table><th>Pill</th><th>Amount</th><th>mg</th><th>Every ? day(s)</th>";
 		while ($pill = $prescriptions->fetch_row()) {
 			$table = $table."<tr>";
