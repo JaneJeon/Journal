@@ -6,7 +6,8 @@ class Page {
     private $links = ['Add Entry' => 'add.php',
                       'View Entries' => 'view.php',
                       'Track Pills' => 'pills.php',
-                      'Mood History' => 'history.php'];
+                      'Mood History' => 'history.php',
+					 'Track Tasks' => 'todo.php'];
     private $loggedIn;
     
     public function __construct($title, $loggedIn) {
@@ -66,12 +67,13 @@ class Page {
     }
     
     private function isCurrentPage($url) {
-        return !(strpos($_SERVER['PHP_SELF'], $url) === false);
+		// PHP_SELF doesn't work for FPM, so use absolute path of the script
+		return !(strpos($_SERVER['SCRIPT_FILENAME'], $url) === false);
     }
     
     private function displayButtons() {
-    	foreach ($this->links as $name => $link)
-            $this->displayButton($name, $link, $this->isCurrentPage($link));
+		foreach ($this->links as $name => $link)
+			$this->displayButton($name, $link, $this->isCurrentPage($link));
 	}
     
     private function displayButton($name, $url, $active) {

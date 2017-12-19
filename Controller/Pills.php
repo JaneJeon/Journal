@@ -11,7 +11,7 @@ class Pills {
 		
 		try {
 			if (($date = Pill::lastTaken()) === false)
-				throw new Exception("Already took the pills for today.");
+				throw new Exception('Already took the pills for today.<script>$(function () {$("form, .optional").hide()})</script>');
 			
 			if (count($pills = self::takeDay())) {
 				foreach ($pills as $pill)
@@ -20,7 +20,7 @@ class Pills {
 			} else
 				throw new Exception("There are no pills to take today.");
 			
-			return '<p class="notice">Good job!</p><script>$(function () {$("form").hide()})</script>';
+			return '<p class="notice">Good job!</p><script>$(function () {$("form, .optional").hide()})</script>';
 		} catch (Exception $e) {
 			return '<p class="error">' . $e->getMessage() . '</p>';
 		}
