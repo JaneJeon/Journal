@@ -11,7 +11,12 @@ class Pills {
 		
 		try {
 			if (($date = Pill::lastTaken()) === false)
-				throw new Exception('Already took the pills for today.<script>$(function () {$("form, .optional").hide()})</script>');
+				throw new Exception('Already took the pills for today.
+					<script>
+						$(function() {
+							$("form, .optional").hide()
+						})
+					</script>');
 			
 			if (count($pills = self::takeDay())) {
 				foreach ($pills as $pill)

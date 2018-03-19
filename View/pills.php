@@ -3,11 +3,9 @@ session_start();
 require_once '../functions.php';
 
 SessionManager::checkUser($_SESSION);
-$output = Pills::enter($_POST);
 
 $p = new Page('Track and Record Pills', true);
-$p->displayHeader();
-echo $output; ?>
+$p->displayHeader(); ?>
 
 <h1>Track and Record Pills</h1>
 <div class="container">
@@ -34,10 +32,12 @@ echo $output; ?>
             </div>
         </div>
     </form>
+	<?= Pills::enter($_POST) ?>
 </div>
 
 <script>
 	$(function() {
+		// functionality for the catchup button
 		$("#catchup").click(function(e) {
 			e.preventDefault()
 			$.get('../scripts/catchup.php', function(data, status) {
@@ -45,6 +45,7 @@ echo $output; ?>
 					$("#catchup").remove()
 					alert('Successfully caught up!')
 				} else
+//					TODO: fix this
 					$(".container").append("<p class='error'>There was an error. Please try again later.</p>")
 			})
 		})

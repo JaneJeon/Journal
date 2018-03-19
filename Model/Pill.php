@@ -40,9 +40,6 @@ class Pill {
 	}
 	
 	public static function lastTaken() {
-		if (DB::pillDB()->query("SELECT COUNT(*) FROM Log WHERE date = CURDATE()")->fetch_row()[0])
-			return false;
-		
 		return DB::pillDB()->query("SELECT MAX(Date) FROM Log")->fetch_row()[0];
 	}
 }
